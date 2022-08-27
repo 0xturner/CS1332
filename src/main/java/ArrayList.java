@@ -62,6 +62,23 @@ public class ArrayList<T> {
         size++;
     }
 
+    // IMPORTANT this method does not do resizing
+    public void addAtIndex(int index, T data) {
+        T[] newArray = (T[]) new Object[backingArray.length];
+
+        for (int i = 0; i <= size; i++) {
+            if (i < index) {
+                newArray[i] = backingArray[i];
+            } else if (i == index) {
+                newArray[i] = data;
+            } else {
+                newArray[i] = backingArray[i - 1];
+            }
+        }
+        size++;
+        backingArray = newArray;
+    }
+
     /**
      * Adds the data to the back of the list.
      *
