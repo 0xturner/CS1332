@@ -1,2 +1,1 @@
-# contact-manager
-Contact Manager application developed for Junit 5 Tutorial
+# Data structure and algorithm practice with Junit 5 
