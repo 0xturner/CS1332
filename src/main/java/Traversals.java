@@ -12,6 +12,18 @@ public class Traversals<T extends Comparable<? super T>> {
    * DO NOT ADD ANY GLOBAL VARIABLES!
    */
 
+  private void checkNode(ArrayList<T> list, TreeNode<T> node) {
+
+    if (node == null) {
+      return;
+    }
+
+    list.add(node.getData());
+    checkNode(list, node.getLeft());
+    checkNode(list, node.getRight());
+
+  }
+
   /**
    * Given the root of a binary search tree, generate a
    * pre-order traversal of the tree. The original tree
@@ -27,6 +39,18 @@ public class Traversals<T extends Comparable<? super T>> {
    */
   public List<T> preorder(TreeNode<T> root) {
     // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+
+    // check node not null
+    // record data in the node
+    // recurse left
+    // recurse right
+
+    ArrayList<T> order = new ArrayList<T>();
+
+    checkNode(order, root);
+
+    return order;
+
   }
 
   /**
@@ -44,6 +68,10 @@ public class Traversals<T extends Comparable<? super T>> {
    */
   public List<T> inorder(TreeNode<T> root) {
     // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+
+    ArrayList<T> order = new ArrayList<T>();
+
+    return order;
   }
 
   /**
@@ -61,5 +89,9 @@ public class Traversals<T extends Comparable<? super T>> {
    */
   public List<T> postorder(TreeNode<T> root) {
     // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+
+    ArrayList<T> order = new ArrayList<T>();
+
+    return order;
   }
 }
