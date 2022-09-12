@@ -32,17 +32,35 @@ public class TraversalsTest {
     hundred.setLeft(seventyFive);
     hundred.setRight(oneTwentyFive);
     oneTwentyFive.setLeft(oneTen);
+
+    System.out.println(root.getRight().getRight().getLeft().getData());
+
   }
 
   @Test
   @DisplayName("preorder")
   public void preorder() {
-
     List<Integer> order = traversals.preorder(root);
-    System.out.println(order.toString());
     assertEquals("[50, 25, 10, 100, 75, 125, 110]", order.toString());
-
   }
+
+  @Test
+  @DisplayName("inorder")
+  public void inorder() {
+    List<Integer> order = traversals.inorder(root);
+    System.out.println(order.toString());
+    assertEquals("[10, 25, 50, 75, 100, 110, 125]", order.toString());
+  }
+
+  @Test
+  @DisplayName("postOrder")
+  public void postorder() {
+    List<Integer> order = traversals.postorder(root);
+    System.out.println(order.toString());
+    assertEquals("[10, 25, 75, 110, 125, 100, 50]", order.toString());
+  }
+
+  // test null case
 
   @AfterEach
   public void tearDown() {

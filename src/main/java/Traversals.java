@@ -1,6 +1,5 @@
 import java.util.List;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 /**
  * Your implementation of the pre-order, in-order, and post-order
@@ -12,16 +11,31 @@ public class Traversals<T extends Comparable<? super T>> {
    * DO NOT ADD ANY GLOBAL VARIABLES!
    */
 
-  private void checkNode(ArrayList<T> list, TreeNode<T> node) {
-
+  private void checkPreorder(ArrayList<T> list, TreeNode<T> node) {
     if (node == null) {
       return;
     }
-
     list.add(node.getData());
-    checkNode(list, node.getLeft());
-    checkNode(list, node.getRight());
+    checkPreorder(list, node.getLeft());
+    checkPreorder(list, node.getRight());
+  }
 
+  private void checkInorder(ArrayList<T> list, TreeNode<T> node) {
+    if (node == null) {
+      return;
+    }
+    checkInorder(list, node.getLeft());
+    list.add(node.getData());
+    checkInorder(list, node.getRight());
+  }
+
+  private void checkPostorder(ArrayList<T> list, TreeNode<T> node) {
+    if (node == null) {
+      return;
+    }
+    checkPostorder(list, node.getLeft());
+    checkPostorder(list, node.getRight());
+    list.add(node.getData());
   }
 
   /**
@@ -38,17 +52,8 @@ public class Traversals<T extends Comparable<? super T>> {
    * @return List containing the pre-order traversal of the tree.
    */
   public List<T> preorder(TreeNode<T> root) {
-    // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
-
-    // check node not null
-    // record data in the node
-    // recurse left
-    // recurse right
-
     ArrayList<T> order = new ArrayList<T>();
-
-    checkNode(order, root);
-
+    checkPreorder(order, root);
     return order;
 
   }
@@ -67,10 +72,8 @@ public class Traversals<T extends Comparable<? super T>> {
    * @return List containing the in-order traversal of the tree.
    */
   public List<T> inorder(TreeNode<T> root) {
-    // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
-
     ArrayList<T> order = new ArrayList<T>();
-
+    checkInorder(order, root);
     return order;
   }
 
@@ -88,10 +91,8 @@ public class Traversals<T extends Comparable<? super T>> {
    * @return List containing the post-order traversal of the tree.
    */
   public List<T> postorder(TreeNode<T> root) {
-    // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
-
     ArrayList<T> order = new ArrayList<T>();
-
+    checkPostorder(order, root);
     return order;
   }
 }
