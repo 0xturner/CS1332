@@ -32,9 +32,6 @@ public class TraversalsTest {
     hundred.setLeft(seventyFive);
     hundred.setRight(oneTwentyFive);
     oneTwentyFive.setLeft(oneTen);
-
-    System.out.println(root.getRight().getRight().getLeft().getData());
-
   }
 
   @Test
