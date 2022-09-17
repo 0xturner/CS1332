@@ -56,6 +56,52 @@ public class BST<T extends Comparable<? super T>> {
     root = rAdd(root, data);
   }
 
+  private BSTNode<T> removeSuccesor(BSTNode<T> curr, BSTNode<T> dummy) {
+    if (curr.getLeft() == null) {
+      dummy.setData(curr.getData());
+      return curr.getRight();
+    }
+    curr.setLeft(removeSuccesor(curr.getLeft(), dummy));
+    return curr;
+
+  }
+
+  private BSTNode<T> rRemove(BSTNode<T> curr, T data, BSTNode<T> dummy) {
+    if (curr == null) {
+      throw new NoSuchElementException("Data not found");
+    }
+
+    int currLargerThanData = curr.getData().compareTo(data);
+    // data smaller than node recurse to the left
+    if (currLargerThanData > 0) {
+      curr.setLeft(rRemove(curr.getLeft(), data, dummy));
+    } else if (currLargerThanData < 0) {
+      // data larger than node recurse to the right
+      curr.setRight(rRemove(curr.getRight(), data, dummy));
+    } else {
+      // data found
+      dummy.setData(curr.getData());
+      size--;
+
+      if (curr.getLeft() == null && curr.getRight() == null) {
+        return null;
+      } else if (curr.getLeft() != null && curr.getRight() == null) {
+        return curr.getLeft();
+      } else if (curr.getRight() != null && curr.getLeft() == null) {
+        return curr.getRight();
+      } else {
+        // two child
+        BSTNode<T> dummy2 = new BSTNode<>(null);
+        curr.setRight(removeSuccesor(curr.getRight(), dummy2));
+        curr.setData(dummy2.getData());
+      }
+      // data found end
+    }
+
+    return curr;
+
+  }
+
   /**
    * Removes and returns the data from the tree matching the given parameter.
    *
@@ -89,7 +135,9 @@ public class BST<T extends Comparable<? super T>> {
       throw new IllegalArgumentException("Cannot be null");
     }
 
-    return data;
+    BSTNode<T> dummy = new BSTNode<>(null);
+    root = rRemove(root, data, dummy);
+    return dummy.getData();
   }
 
   /**
