@@ -1,4 +1,3 @@
-import java.util.Arrays;
 import java.util.NoSuchElementException;
 
 /**
@@ -83,9 +82,6 @@ public class MinHeap<T extends Comparable<? super T>> {
       throw new IllegalArgumentException("Can't be null");
     }
 
-    System.out.println(size);
-    System.out.println(backingArray.length);
-
     if (size + 1 == backingArray.length) {
       doubleCapacity();
     }
@@ -154,8 +150,8 @@ public class MinHeap<T extends Comparable<? super T>> {
     }
 
     // move last element into root
-    backingArray[1] = backingArray[size - 1];
-    backingArray[size - 1] = null;
+    backingArray[1] = backingArray[size];
+    backingArray[size] = null;
     size--;
 
     rDownHeap(1);

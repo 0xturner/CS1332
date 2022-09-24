@@ -141,19 +141,24 @@ public class MinHeapTest {
     minHeap.add(0);
     minHeap.add(1);
     minHeap.add(2);
-    minHeap.add(3);
     minHeap.add(4);
+    minHeap.add(3);
     minHeap.add(5);
-    minHeap.add(6);
     minHeap.add(7);
+    minHeap.add(6);
     minHeap.add(8);
     minHeap.add(9);
     minHeap.add(10);
 
-    // System.out.println(Arrays.toString(minHeap.getBackingArray()));
+    assertEquals(
+        "[null, 0, 1, 2, 4, 3, 5, 7, 6, 8, 9, 10, null]",
+        Arrays.toString(minHeap.getBackingArray()));
+
     minHeap.remove();
 
-    System.out.println(Arrays.toString(minHeap.getBackingArray()));
+    assertEquals(
+        "[null, 1, 3, 2, 4, 9, 5, 7, 6, 8, 10, null, null]",
+        Arrays.toString(minHeap.getBackingArray()));
 
   }
 
