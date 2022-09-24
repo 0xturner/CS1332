@@ -37,6 +37,16 @@ public class MinHeapTest {
   }
 
   @Test
+  @DisplayName("add null")
+  public void addNull() {
+    minHeap = new MinHeap<Integer>();
+    Assertions.assertThrows(IllegalArgumentException.class, () -> {
+      minHeap.add(null);
+    });
+
+  }
+
+  @Test
   @DisplayName("removeEmpty")
   public void removeEmpty() {
     minHeap = new MinHeap<Integer>();
@@ -61,7 +71,10 @@ public class MinHeapTest {
     minHeap.add(9);
     minHeap.add(10);
 
+    // System.out.println(Arrays.toString(minHeap.getBackingArray()));
     minHeap.remove();
+
+    System.out.println(Arrays.toString(minHeap.getBackingArray()));
 
   }
 

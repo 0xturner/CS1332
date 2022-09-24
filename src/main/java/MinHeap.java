@@ -78,6 +78,10 @@ public class MinHeap<T extends Comparable<? super T>> {
    */
   public void add(T data) {
 
+    if (data == null) {
+      throw new IllegalArgumentException("Can't be null");
+    }
+
     // if empty set index 0 to null
     if (size == 0) {
       size++;
@@ -94,13 +98,41 @@ public class MinHeap<T extends Comparable<? super T>> {
     rUpHeap(data, size - 1);
 
     // to get parent -> index / 2 (round down)
-    // left child -> index * 2
-    // right child -> index * 2 + 1
   }
 
-  // private void rDownHeap(T data, int idx) {
+  private void rDownHeap(int idx) {
 
-  // }
+    // left child -> index * 2
+    // right child -> index * 2 + 1
+
+    // get comparison child
+    // if two, get smaller
+    // if none return
+
+    // at the leaf node
+    if (idx * 2 > size) {
+
+      return;
+    }
+
+    T rightChild = backingArray[idx * 2 + 1];
+    T leftChild = backingArray[idx * 2];
+    T comparisonChild = leftChild;
+    int comparisonIdx = idx * 2;
+
+    if (rightChild != null && rightChild.compareTo(leftChild) < 0) {
+      comparisonChild = rightChild;
+      comparisonIdx = idx * 2 + 1;
+    }
+
+    // if data is smaller end
+    if (backingArray[idx].compareTo(comparisonChild) < 0) {
+      return;
+    }
+
+    swap(idx, comparisonIdx);
+    rDownHeap(comparisonIdx);
+  }
 
   /**
    * Removes and returns the min item of the heap. As usual for array-backed
@@ -121,10 +153,11 @@ public class MinHeap<T extends Comparable<? super T>> {
     }
 
     // move last element into root
-    backingArray[1] = backingArray[size];
-    backingArray[size] = null;
+    backingArray[1] = backingArray[size - 1];
+    backingArray[size - 1] = null;
     size--;
 
+    rDownHeap(1);
     // downheap:
     // compare both children, note smaller one
     // if one child(left), compare to that child
