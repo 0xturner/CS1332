@@ -1,4 +1,5 @@
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 /**
  * Your implementation of a ExternalChainingHashMap.
@@ -71,7 +72,46 @@ public class ExternalChainingHashMap<K, V> {
      */
     public V put(K key, V value) {
         // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+        if (key == null || value == null) {
+            throw new IllegalArgumentException("Invalid argument(s)");
+        }
+
+        int hash = Objects.hashCode(key);
+        int index = hash % table.length;
+
+        if (table[index] == null) {
+          // spot was empty so simple add it
+          table[index] = new ExternalChainingMapEntry<K,V>(key,value);
+          size ++;
+          return null;
+        } else {
+
+          // loop through to check for duplicate key
+          ExternalChainingMapEntry<K,V> curr = table[index];
+          while (curr != null) {
+            if (curr.getKey() == key) {
+              // duplicate found so replace
+              V oldValue = curr.getValue();
+              curr.setValue(value);
+              return oldValue;
+            }
+            curr = curr.getNext();
+          }
+
+          // if not a duplicate, add to head of list
+          table[index] = new ExternalChainingMapEntry<K,V>(key,value, table[index]);
+          size ++;
+          return null;
+        }
+
+        // CASES:
+        // No collision
+        // collision with duplicate
+        // collision with no duplicate
+        // resize
     }
+
+
 
     /**
      * Removes the entry with a matching key from the map.
@@ -81,9 +121,9 @@ public class ExternalChainingHashMap<K, V> {
      * @throws java.lang.IllegalArgumentException If key is null.
      * @throws java.util.NoSuchElementException   If the key is not in the map.
      */
-    public V remove(K key) {
-        // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
-    }
+    // public V remove(K key) {
+    //     // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+    // }
 
     /**
      * Helper method stub for resizing the backing table to length.
