@@ -118,7 +118,8 @@ public class ExternalChainingHashMapTest {
     map.put(4, 4);
 
     map.remove(4);
-    System.out.print(Arrays.toString(map.getTable()));
+
+    assertEquals(map.size(), 0);
 
     assertEquals("[null, null, null, null, null, null, null, null, null, null, null, null, null]", Arrays.toString(map.getTable()));
 
@@ -133,8 +134,8 @@ public class ExternalChainingHashMapTest {
     map.put(11, 11);
 
     map.remove(11);
-    System.out.print(Arrays.toString(map.getTable()));
 
+    assertEquals(map.size(), 2);
     assertEquals("[null, null, null, null, null, null, null, null, null, null, null, (24, 24), null]", Arrays.toString(map.getTable()));
 
   }
@@ -147,7 +148,7 @@ public class ExternalChainingHashMapTest {
     map.put(24, 24);
     map.put(11, 11);
 
-
+    assertEquals(map.size(), 3);
 
     Assertions.assertThrows(NoSuchElementException.class, () -> {
       map.remove(1);

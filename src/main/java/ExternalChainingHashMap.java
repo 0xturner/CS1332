@@ -144,6 +144,7 @@ public class ExternalChainingHashMap<K, V> {
               prev.setNext(curr.getNext());
             }
 
+            size--;
             return curr.getValue();
           }
           prev = curr;
