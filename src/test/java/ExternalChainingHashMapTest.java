@@ -45,6 +45,8 @@ public class ExternalChainingHashMapTest {
     assertEquals(node.getValue(), 32);
     assertEquals(node.getNext().getValue(), 6);
     assertEquals(node.getNext().getNext().getValue(), 19);
+
+    assertEquals(map.size(), 6);
   }
 
   @Test
@@ -59,7 +61,6 @@ public class ExternalChainingHashMapTest {
     map.put(11, 11);
     int res = map.put(24, 24);
 
-    System.out.print(Arrays.toString(map.getTable()));
 
     assertEquals(res, 23);
     assertEquals("[null, null, null, null, null, null, (19, 19), null, (8, 8), null, null, (11, 11), null]", Arrays.toString(map.getTable()));
@@ -69,9 +70,46 @@ public class ExternalChainingHashMapTest {
     assertEquals(node.getNext().getValue(), 24);
     assertEquals(node.getNext().getNext().getValue(), 37);
 
+    assertEquals(map.size(), 6);
   }
 
+  @Test
+  @DisplayName("resize")
+  public void resize() {
+    map = new ExternalChainingHashMap<Integer, Integer>();
+    map.put(1, 1);
+    map.put(2, 2);
+    map.put(3, 3);
+    map.put(4, 4);
+    map.put(5, 5);
+    map.put(6, 6);
+    map.put(7, 7);
+    map.put(8, 8);
 
+    assertEquals(map.getTable().length, 13);
+    map.put(9, 9);
+    assertEquals(map.getTable().length, 27);
+    System.out.print(Arrays.toString(map.getTable()));
+  }
 
-  // resize required
+   @Test
+  @DisplayName("resize 2")
+  public void resize2() {
+    map = new ExternalChainingHashMap<Integer, Integer>();
+    map.put(19, 19);
+    map.put(8, 8);
+    map.put(11, 11);
+    map.put(25, 25);
+    map.put(6, 6);
+    map.put(32, 32);
+    assertEquals("[null, null, null, null, null, null, (32, 32), null, (8, 8), null, null, (11, 11), (25, 25)]", Arrays.toString(map.getTable()));
+    map.put(1, 1);
+    map.put(2, 2);
+    map.put(45, 45);
+
+    assertEquals(map.getTable().length, 27);
+    System.out.print(Arrays.toString(map.getTable()));
+
+  }
+
 }

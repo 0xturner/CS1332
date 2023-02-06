@@ -73,7 +73,13 @@ public class ExternalChainingHashMap<K, V> {
     public V put(K key, V value) {
         // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
         if (key == null || value == null) {
-            throw new IllegalArgumentException("Invalid argument(s)");
+          throw new IllegalArgumentException("Invalid argument(s)");
+        }
+
+        Double loadFactor = (double) (size + 1) / table.length;
+
+        if (loadFactor > MAX_LOAD_FACTOR) {
+          resizeBackingTable(2 * table.length + 1);
         }
 
         int hash = Objects.hashCode(key);
@@ -103,12 +109,6 @@ public class ExternalChainingHashMap<K, V> {
           size ++;
           return null;
         }
-
-        // CASES:
-        // No collision
-        // collision with duplicate
-        // collision with no duplicate
-        // resize
     }
 
 
@@ -144,6 +144,29 @@ public class ExternalChainingHashMap<K, V> {
      */
     private void resizeBackingTable(int length) {
         // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+        ExternalChainingMapEntry<K, V>[] newTable = (ExternalChainingMapEntry<K, V>[]) new ExternalChainingMapEntry[length];
+
+        // loop through backing array
+        for (int i = 0; i < table.length; i++) {
+          if (table[i] != null) {
+            ExternalChainingMapEntry<K,V> curr = table[i];
+            // loop through linked list
+            while (curr != null) {
+              int hash = Objects.hashCode(curr.getKey());
+              int index = hash % length;
+              if (newTable[index] == null) {
+                // spot was empty so simple add it
+                newTable[index] = new ExternalChainingMapEntry<K,V>(curr.getKey(), curr.getValue());
+              } else {
+                newTable[index] = new ExternalChainingMapEntry<K,V>(curr.getKey(), curr.getValue(), newTable[index]);
+              }
+
+              curr = curr.getNext();
+            }
+          }
+        }
+
+        table = newTable;
     }
 
     /**
