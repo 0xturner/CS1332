@@ -121,9 +121,39 @@ public class ExternalChainingHashMap<K, V> {
      * @throws java.lang.IllegalArgumentException If key is null.
      * @throws java.util.NoSuchElementException   If the key is not in the map.
      */
-    // public V remove(K key) {
-    //     // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
-    // }
+    public V remove(K key) {
+        // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+      if (key == null) {
+        throw new IllegalArgumentException("Invalid argument");
+      }
+
+      int hash = Objects.hashCode(key);
+      int index = hash % table.length;
+
+      if (table[index] != null) {
+        ExternalChainingMapEntry<K,V> prev = null;
+        ExternalChainingMapEntry<K,V> curr = table[index];
+
+        // loop through linked list
+        while (curr != null) {
+          if (curr.getKey() == key) {
+
+            if (prev == null) {
+              table[index] = curr.getNext();
+            } else {
+              prev.setNext(curr.getNext());
+            }
+
+            return curr.getValue();
+          }
+          prev = curr;
+          curr = curr.getNext();
+        }
+        throw new NoSuchElementException("Key not found");
+      }
+
+      throw new NoSuchElementException("Key not found");
+    }
 
     /**
      * Helper method stub for resizing the backing table to length.

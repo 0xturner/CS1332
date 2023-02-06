@@ -92,7 +92,7 @@ public class ExternalChainingHashMapTest {
     System.out.print(Arrays.toString(map.getTable()));
   }
 
-   @Test
+  @Test
   @DisplayName("resize 2")
   public void resize2() {
     map = new ExternalChainingHashMap<Integer, Integer>();
@@ -108,8 +108,52 @@ public class ExternalChainingHashMapTest {
     map.put(45, 45);
 
     assertEquals(map.getTable().length, 27);
-    System.out.print(Arrays.toString(map.getTable()));
 
   }
 
+  @Test
+  @DisplayName("remove single")
+  public void removeSingle() {
+    map = new ExternalChainingHashMap<Integer, Integer>();
+    map.put(4, 4);
+
+    map.remove(4);
+    System.out.print(Arrays.toString(map.getTable()));
+
+    assertEquals("[null, null, null, null, null, null, null, null, null, null, null, null, null]", Arrays.toString(map.getTable()));
+
+  }
+
+  @Test
+  @DisplayName("remove collision")
+  public void removeCollision() {
+    map = new ExternalChainingHashMap<Integer, Integer>();
+    map.put(37, 37);
+    map.put(24, 24);
+    map.put(11, 11);
+
+    map.remove(11);
+    System.out.print(Arrays.toString(map.getTable()));
+
+    assertEquals("[null, null, null, null, null, null, null, null, null, null, null, (24, 24), null]", Arrays.toString(map.getTable()));
+
+  }
+
+  @Test
+  @DisplayName("remove not found")
+  public void removeNotFound() {
+    map = new ExternalChainingHashMap<Integer, Integer>();
+    map.put(37, 37);
+    map.put(24, 24);
+    map.put(11, 11);
+
+
+
+    Assertions.assertThrows(NoSuchElementException.class, () -> {
+      map.remove(1);
+    });
+
+    assertEquals("[null, null, null, null, null, null, null, null, null, null, null, (11, 11), null]", Arrays.toString(map.getTable()));
+
+  }
 }
