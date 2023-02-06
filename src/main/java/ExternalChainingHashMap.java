@@ -78,17 +78,16 @@ public class ExternalChainingHashMap<K, V> {
 
         Double loadFactor = (double) (size + 1) / table.length;
 
-        if (loadFactor > MAX_LOAD_FACTOR) {
-          resizeBackingTable(2 * table.length + 1);
-        }
-
         int hash = Objects.hashCode(key);
-        int index = hash % table.length;
+        int index = Math.abs(hash % table.length);
 
         if (table[index] == null) {
           // spot was empty so simple add it
           table[index] = new ExternalChainingMapEntry<K,V>(key,value);
           size ++;
+          if (loadFactor > MAX_LOAD_FACTOR) {
+            resizeBackingTable(2 * table.length + 1);
+          }
           return null;
         } else {
 
@@ -106,6 +105,9 @@ public class ExternalChainingHashMap<K, V> {
 
           // if not a duplicate, add to head of list
           table[index] = new ExternalChainingMapEntry<K,V>(key,value, table[index]);
+          if (loadFactor > MAX_LOAD_FACTOR) {
+            resizeBackingTable(2 * table.length + 1);
+          }
           size ++;
           return null;
         }
@@ -128,7 +130,7 @@ public class ExternalChainingHashMap<K, V> {
       }
 
       int hash = Objects.hashCode(key);
-      int index = hash % table.length;
+      int index = Math.abs(hash % table.length);
 
       if (table[index] != null) {
         ExternalChainingMapEntry<K,V> prev = null;
@@ -184,7 +186,7 @@ public class ExternalChainingHashMap<K, V> {
             // loop through linked list
             while (curr != null) {
               int hash = Objects.hashCode(curr.getKey());
-              int index = hash % length;
+              int index = Math.abs(hash % length);
               if (newTable[index] == null) {
                 // spot was empty so simple add it
                 newTable[index] = new ExternalChainingMapEntry<K,V>(curr.getKey(), curr.getValue());

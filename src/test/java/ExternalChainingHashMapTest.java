@@ -89,7 +89,6 @@ public class ExternalChainingHashMapTest {
     assertEquals(map.getTable().length, 13);
     map.put(9, 9);
     assertEquals(map.getTable().length, 27);
-    System.out.print(Arrays.toString(map.getTable()));
   }
 
   @Test
@@ -155,6 +154,14 @@ public class ExternalChainingHashMapTest {
     });
 
     assertEquals("[null, null, null, null, null, null, null, null, null, null, null, (11, 11), null]", Arrays.toString(map.getTable()));
+  }
 
+  @Test
+  @DisplayName("put negative key")
+  public void putNegative() {
+    map = new ExternalChainingHashMap<Integer, Integer>();
+    map.put(-5, -5);
+    assertEquals("[null, null, null, null, null, (-5, -5), null, null, null, null, null, null, null]", Arrays.toString(map.getTable()));
+    assertEquals(map.size(), 1);
   }
 }
